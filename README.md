@@ -1,0 +1,2 @@
+# Projektityo-harjoitus
+Verkkosivupohjainen luokkavaraussovellus.
