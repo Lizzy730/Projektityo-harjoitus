@@ -1,0 +1,8 @@
+body {
+    background-color: #acbfff;
+}
+
+.navbar .navbar-nav .nav-link {
+    font-size: 1.25rem;
+    color: #000;
+}
