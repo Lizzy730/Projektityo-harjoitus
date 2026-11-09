@@ -6,3 +6,7 @@ body {
     font-size: 1.25rem;
     color: #000;
 }
+
+.profile-actions .btn {
+    width: 160px;
+}
