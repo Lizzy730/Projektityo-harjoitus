@@ -1,58 +1,61 @@
 <!DOCTYPE html>
+<html lang="fi">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="käyttöliittymä.css">
+  <title>Varaukset – Luokkavaraus</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/flatpickr@4.6.13/dist/flatpickr.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="käyttöliittymä.css">
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
-    <nav class="navbar navbar-expand-sm navbar-light">
-  <div class="container-fluid">
-    <ul class="navbar-nav">
-      <li class="nav-item">
-        <a class="nav-link" href="käyttöliittymä.html">Etusivu</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="varaukset.html">Varaukset</a>
-      </li>
-    </ul>
-    <ul class="navbar-nav ms-auto">
-      <li class="nav-item">
-        <a class="nav-link" href="#">Rekisteröidy</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Kirjaudu</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link active" href="profiili.html">Profiili</a>
-      </li>
-    </ul>
-  </div>
-  <link rel="stylesheet" href="käyttöliittymä.css">
-<h1 style="text-align: center;">Varaukset</h1>
+  <h1 class="text-center">Varaukset</h1>
+  <nav class="navbar navbar-expand-sm navbar-light">
+    <div class="container-fluid">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" href="käyttöliittymä.html">Etusivu</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="varaukset.html" aria-current="page">Varaukset</a>
+        </li>
+      </ul>
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="#">Rekisteröidy</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Kirjaudu</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="profiili.html">Profiili</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
 
-<main class="container my-4">
-  <h2>Valitse varauspäivät</h2>
-  <input id="varauspaivat" class="visually-hidden" type="text">
-  <div class="row g-3 mt-2">
-    <div class="col-sm-4">
-      <label for="uusiLuokka" class="form-label">Luokka</label>
-      <select id="uusiLuokka" class="form-select"></select>
+  <main class="container my-4">
+    <h2>Valitse varauspäivät</h2>
+    <label for="varauspaivat" class="visually-hidden">Valitse varauspäivät</label>
+    <input id="varauspaivat" class="visually-hidden" type="text">
+    <div class="row g-3 mt-2">
+      <div class="col-sm-4">
+        <label for="uusiLuokka" class="form-label">Luokka</label>
+        <select id="uusiLuokka" class="form-select"></select>
+      </div>
+      <div class="col-sm-4">
+        <label for="uusiAlku" class="form-label">Alkamisaika</label>
+        <select id="uusiAlku" class="form-select"></select>
+      </div>
+      <div class="col-sm-4">
+        <label for="uusiLoppu" class="form-label">Päättymisaika</label>
+        <select id="uusiLoppu" class="form-select"></select>
+      </div>
     </div>
-    <div class="col-sm-4">
-      <label for="uusiAlku" class="form-label">Alkamisaika</label>
-      <select id="uusiAlku" class="form-select"></select>
-    </div>
-    <div class="col-sm-4">
-      <label for="uusiLoppu" class="form-label">Päättymisaika</label>
-      <select id="uusiLoppu" class="form-select"></select>
-    </div>
-  </div>
-  <button id="varaaPaivat" class="btn btn-primary mt-3" type="button" disabled>Varaa päivät</button>
-  <p id="varausTila" class="mt-2" role="status" aria-live="polite"></p>
-</main>
+    <button id="varaaPaivat" class="btn btn-primary mt-3" type="button" disabled>Varaa päivät</button>
+    <p id="varausTila" class="mt-2" role="status" aria-live="polite"></p>
+  </main>
 <script src="https://cdn.jsdelivr.net/npm/flatpickr@4.6.13"></script>
 <script src="https://cdn.jsdelivr.net/npm/flatpickr@4.6.13/dist/l10n/fi.js"></script>
 <script>
