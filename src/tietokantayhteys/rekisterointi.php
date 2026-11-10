@@ -44,9 +44,9 @@
 
 
 <?php
+
 // Yhdistetään yhteys.php 
 require_once "yhteys.php";
-
 // if lause 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $etunimi = $_POST["firstname"];
