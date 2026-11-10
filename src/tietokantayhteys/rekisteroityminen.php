@@ -43,9 +43,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
                 // SSSS = String x4 eli siis niitten tyyppi
                 $rektiedot->bind_param("ssss", $etunimi, $sukunimi, $sahkoposti, $salasana_hash);
         
-                // Kerrotaan käyttäjälle onnistuiko
+                // Kertoo käyttäjälle onnistuiko
                 if ($rektiedot->execute()) {
-                    echo "Rekisteröityminen onnistui palveluun!";
+                // Ohjaa käyttäjän etusivulle
+                header("Location: käyttöliittymä.html?viesti=rekisterointi_ok");
+                exit();
+
                 } else {
                 echo "Virhe: Jotain meni pieleen! " . $rektiedot->error;
                 }
@@ -56,4 +59,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 
     // Sulkee tietokantayhteyden
     $conn->close();
+
 ?>
+
+
