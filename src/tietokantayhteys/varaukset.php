@@ -124,7 +124,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="käyttöliittymä.css">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/flatpickr@4.6.13/dist/flatpickr.min.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
@@ -132,6 +131,30 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 <body>
   <link rel="stylesheet" href="käyttöliittymä.css">
 <h1 style="text-align: center;">Varaukset</h1>
+<nav class="navbar navbar-expand-sm navbar-light">
+    <div class="container-fluid">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" href="käyttöliittymä.html">Etusivu</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" href="varaukset.php">Varaukset</a>
+            </li>
+        </ul>
+
+        <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="#">Rekisteröidy</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Kirjaudu</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="profiili.html">Profiili</a>
+            </li>
+        </ul>
+    </div>
+</nav>
 
 <main class="container my-4">
   <h2>Valitse varauspäivät</h2>
