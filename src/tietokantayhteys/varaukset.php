@@ -5,19 +5,9 @@ session_start();
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     header("Content-Type: application/json; charset=utf-8");
 
-    // Tarkistetaan onko käyttäjä kirjautunut
-    if (!isset($_SESSION["user_id"])) {
-        http_response_code(401);
-        echo json_encode([
-            "success" => false,
-            "message" => "Kirjaudu ensin sisään."
-        ]);
-        exit;
-    }
-
     try {
         // Otetaan tietokantayhteys käyttöön
-        require_once __DIR__ . "/src/tietokantayhteys/yhteys.php";
+        require_once __DIR__ . "/yhteys.php";
 
         // Haetaan lähetetyt varaustiedot
         $data = json_decode(file_get_contents("php://input"), true);
@@ -28,11 +18,23 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             throw new Exception("Varauksia ei löytynyt.");
         }
 
-        // Haetaan kirjautuneen käyttäjän ID
-        $user_id = (int) $_SESSION["user_id"];
-
         // Aloitetaan tietokannan tallennus
-        $yhteys->begin_transaction();
+        $yhteys->beginTransaction();
+
+        if (isset($_SESSION["user_id"])) {
+            $user_id = (int) $_SESSION["user_id"];
+        } else {
+            $vieras = $yhteys->prepare(
+                "INSERT INTO User (etunimi, sukunimi, sahkoposti, salasana_hash)
+                 VALUES ('Vieras', 'Käyttäjä', ?, ?)
+                 ON DUPLICATE KEY UPDATE user_id = LAST_INSERT_ID(user_id)"
+            );
+            $vieras->execute([
+                "vieras-varaukset@invalid.example",
+                password_hash(bin2hex(random_bytes(32)), PASSWORD_DEFAULT)
+            ]);
+            $user_id = (int) $yhteys->lastInsertId();
+        }
 
         // SQL-lause varauksen lisäämiseen
         $sql = "INSERT INTO Varaus
@@ -84,15 +86,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             }
 
             // Lisätään tiedot SQL-lauseeseen
-            $stmt->bind_param(
-                "iiss",
+            $stmt->execute([
                 $user_id,
                 $huone_id,
                 $alkuaika,
                 $loppuaika
-            );
-
-            $stmt->execute();
+            ]);
         }
         $yhteys->commit();
 
@@ -104,8 +103,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     } catch (Throwable $e) {
 
-        if (isset($yhteys) && $yhteys instanceof mysqli) {
-            $yhteys->rollback();
+        if (isset($yhteys) && $yhteys instanceof PDO && $yhteys->inTransaction()) {
+            $yhteys->rollBack();
         }
 
         error_log($e->getMessage());
@@ -125,8 +124,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <script src="auth.js"></script>
-  <script>Auth.protectPage();</script>
   <link rel="stylesheet" href="käyttöliittymä.css">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/flatpickr@4.6.13/dist/flatpickr.min.css" rel="stylesheet">
@@ -336,7 +333,6 @@ try {
 </script>
 </body>
 </html
-
 
 
 
