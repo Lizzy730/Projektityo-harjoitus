@@ -1,9 +1,8 @@
 <?php
 
-//aloitetaan istunto 
-
+//session_start(); ei tarvita, koska tarkista_kirjautuminen.php hoitaa sen
 require_once "tarkista_kirjautuminen.php";
-session_start();
+
 // Tarkistetaan onko pyyntö GET
 if ($_SERVER["REQUEST_METHOD"] === "GET" && isset($_GET["hae"])) {
     header("Content-Type: application/json; charset=utf-8");
