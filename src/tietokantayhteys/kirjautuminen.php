@@ -3,7 +3,7 @@ session_start();
 
 // Jos käyttäjä on jo kirjautunut sisään = Heitetään suoraan etusivulle
 if (isset($_SESSION["kirjautunut"]) && $_SESSION["kirjautunut"] === true) {
-    header("Location: käyttöliittymä.php");
+    header("Location: käyttöliittymä.html");
     exit();
 }
 
@@ -30,14 +30,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if (!empty($sahkoposti) && !empty($salasana)) {
         // Hakee käyttäjän sähköpostin perusteella (Huomioitu user_id, etunimi ja salasana_hash)
-        $stmt = $conn->prepare("SELECT user_id, etunimi, salasana_hash FROM User WHERE sahkoposti = ?");
-        $stmt->bind_param("s", $sahkoposti);
-        $stmt->execute();
-        $result = $stmt->get_result();
+        $stmt = $yhteys->prepare("SELECT user_id, etunimi, salasana_hash FROM User WHERE sahkoposti = ?");
+        $stmt->execute([$sahkoposti]);
+        $user_data = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        if ($result->num_rows === 1) {
-            $user_data = $result->fetch_assoc();
-
+        if ($user_data) {
             // Verifioi salasanan vertaamalla sitä tietokannan hashiin
             if (password_verify($salasana, $user_data["salasana_hash"])) {
                 
@@ -46,11 +43,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $_SESSION["user_id"] = $user_data["user_id"];
                 $_SESSION["user_etunimi"] = $user_data["etunimi"];
 
-                $stmt->close();
-                $conn->close();
+                $stmt = null;
+                $yhteys = null;
 
                 // Vie käyttäjän etusivulle kirjautumisen jälkeen
-                header("Location: käyttöliittymä.php");
+                header("Location: käyttöliittymä.html");
                 exit();
             } else {
                 $virheviesti = "Virhe: Väärä salasana!";
@@ -58,7 +55,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         } else {
             $virheviesti = "Virhe: Sähköpostiosoitetta ei löydy!";
         }
-        $stmt->close();
+        $stmt = null;
     } else {
         $virheviesti = "Täytä kaikki kentät!";
     }

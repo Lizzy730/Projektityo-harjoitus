@@ -1,16 +1,6 @@
 <?php
 require "yhteys.php";
 
-$conn = new mysqli($host, $user, $password, $dbname);
-
-// Tarkistaa yhteyden
-if ($conn->connect_error) {
-    die("Virhe: Tietokantayhteys epäonnistui! " . $conn->connect_error);
-}
-
-// Saa ääkköset toimimaan jos niitä sattuu tulemaan
-$conn->set_charset("utf8mb4");
-
 // Luo muuttujan mahdollisille virheviesteille, jotka halutaan näyttää lomakkeella
 $virheviesti = "";
 
@@ -26,38 +16,34 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $salasana_hash = password_hash($salasana, PASSWORD_DEFAULT);
     
     // Tarkistaa, että onko sähköposti jo olemassa tietokannassa (Estetään siis tuplaantumiset)
-    $check_email = $conn->prepare("SELECT sahkoposti FROM User WHERE sahkoposti = ?");
-    $check_email->bind_param("s", $sahkoposti);
-    $check_email->execute();
-    $check_email->store_result();
+    $check_email = $yhteys->prepare("SELECT sahkoposti FROM User WHERE sahkoposti = ?");
+    $check_email->execute([$sahkoposti]);
     
-    if ($check_email->num_rows > 0) {
+    if ($check_email->fetch()) {
         $virheviesti = "Virhe: Sähköpostiosoite on jo rekisteröity!";
-        $check_email->close();
+        $check_email = null;
     } else {
-        $check_email->close();
+        $check_email = null;
         
         // Valmistaa SQL-lauseen tietojen lisäämiseksi tietokantaan User kohtaan
-        $rektiedot = $conn->prepare("INSERT INTO User (etunimi, sukunimi, sahkoposti, salasana_hash) VALUES (?, ?, ?, ?)");
-        // SSSS = String x4 eli siis niitten tyyppi
-        $rektiedot->bind_param("ssss", $etunimi, $sukunimi, $sahkoposti, $salasana_hash);
+        $rektiedot = $yhteys->prepare("INSERT INTO User (etunimi, sukunimi, sahkoposti, salasana_hash) VALUES (?, ?, ?, ?)");
         
         // Kertoo käyttäjälle onnistuiko
-        if ($rektiedot->execute()) {
-            $rektiedot->close();
-            $conn->close();
+        if ($rektiedot->execute([$etunimi, $sukunimi, $sahkoposti, $salasana_hash])) {
+            $rektiedot = null;
+            $yhteys = null;
             // Ohjaa käyttäjän kirjautumissivulle
             header("Location: kirjautuminen.php?viesti=rekisterointi_ok");
             exit();
         } else {
-            $virheviesti = "Virhe: Jotain meni pieleen! " . $rektiedot->error;
-            $rektiedot->close();
+            $virheviesti = "Virhe: Jotain meni pieleen!";
+            $rektiedot = null;
         }
     }
 }
 
 // Sulkee tietokantayhteyden
-$conn->close();
+$yhteys = null;
 ?>
 
 <!DOCTYPE html>
@@ -72,7 +58,7 @@ $conn->close();
 </head>
 <body>
     <div class="container mt-3">
-        <form action="rekisterointi.php" id="form1" method="post">
+        <form action="rekisterointi.php" method="post"  class="card p-4 shadow-sm">
             <h2>Rekisteröidy</h2>
             
             <?php if (!empty($virheviesti)): ?>
@@ -94,8 +80,9 @@ $conn->close();
             <label for="password">Salasana:</label>
             <input type="password" class="form-control" id="password" name="password" required>
             <br>
-            <button type="submit" id="registerBtn">Rekisteröidy</button>
+            <button type="submit" id="registerBtn" class="btn btn-primary w-100">Rekisteröidy</button>
         </form>
+        <p class="mt-3 text-center">Onko sinulla jo tili? <a href="kirjautuminen.php">Kirjaudu tästä!</a></p>
     </div>
 </body>
 </html>
