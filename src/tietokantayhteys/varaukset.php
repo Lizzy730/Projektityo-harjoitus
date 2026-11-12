@@ -1,4 +1,6 @@
 <?php
+require_once "tarkista_kirjautuminen.php";
+
 session_start();
 
 // Tarkistetaan onko pyyntö POST
