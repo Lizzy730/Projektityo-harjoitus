@@ -43,78 +43,75 @@
   </main>
   <script src="https://cdn.jsdelivr.net/npm/flatpickr@4.6.13"></script>
   <script src="https://cdn.jsdelivr.net/npm/flatpickr@4.6.13/dist/l10n/fi.js"></script>
-  <script>
+<script>
+  // näyttää varaukset valitulle päivälle
     const reservationStatus = document.querySelector("#varausTila");
-    const storageKey = "luokkavaraus-varaukset";
-    const legacyStorageKey = "luokkavaraus-varatut-paivat";
     let reservations = [];
-    let storageAvailable = true;
 
-    function validReservation(reservation) {
-      return reservation && typeof reservation.id === "string" &&
-        typeof reservation.date === "string" &&
-        Number.isInteger(Number(reservation.room)) && Number(reservation.room) >= 1 && Number(reservation.room) <= 10 &&
-        typeof reservation.start === "string" && typeof reservation.end === "string" &&
-        /^\d{2}:00$/.test(reservation.start) && /^\d{2}:00$/.test(reservation.end) &&
-        Number(reservation.start.slice(0, 2)) < Number(reservation.end.slice(0, 2)) &&
-        Number(reservation.end.slice(0, 2)) <= 24;
-    }
+    async function haeVaraukset() {
+        try {
+            const response = await fetch("varaukset.php?hae=1");
 
-    function readReservations() {
-      const stored = localStorage.getItem(storageKey);
-      if (stored !== null) {
-        const parsed = JSON.parse(stored);
-        if (!Array.isArray(parsed) || !parsed.every(validReservation)) {
-          throw new Error("Varaustiedot eivät ole kelvollisia.");
+                // virheilmoitus
+            if (!response.ok) {
+                throw new Error("Varausten hakeminen epäonnistui.");
+            }
+
+            const data = await response.json();
+              // tarkistetaan, että data on taulukossa
+            if (!Array.isArray(data)) {
+              // jos data ei ole taulukossa, heitetään virhe
+                throw new Error("Virheelliset varaustiedot.");
+            }
+              // tallennetaan varaukset
+            reservations = data;
+        } catch (error) {
+          // näytetään virheilmoitus
+            reservationStatus.textContent = "Varausten hakeminen epäonnistui.";
         }
-        return parsed;
-      }
-
-      const legacy = localStorage.getItem(legacyStorageKey);
-      if (legacy === null) {
-        return [];
-      }
-      const oldDates = JSON.parse(legacy);
-      if (!Array.isArray(oldDates) || !oldDates.every(day => typeof day === "string")) {
-        throw new Error("Aiemmat varaustiedot eivät ole kelvollisia.");
-      }
-      return oldDates.map((date, index) => ({
-        id: `vanha-${index}-${date}`,
-        date,
-        room: 1,
-        start: "00:00",
-        end: "24:00"
-      }));
     }
 
-    try {
-      reservations = readReservations();
-    } catch (error) {
-      storageAvailable = false;
-      reservationStatus.textContent = "Varaustietojen lukeminen epäonnistui. Tarkista selaimen tallennustila ja tiedot.";
-      reservationStatus.classList.add("text-danger");
-    }
+    // näyttää varaukset valitulle päivälle
+    async function naytaVaraukset(dateString) {
+        await haeVaraukset();
 
+        // suodatetaan varaukset valitulle päivälle
+        const paivanVaraukset = reservations.filter(
+            varaus => varaus.date === dateString
+        );
+            // jos varauksia ei ole, näytetään ilmoitus
+        if (paivanVaraukset.length === 0) {
+            reservationStatus.textContent =
+                `Päivälle ${dateString} ei ole luokkavarauksia.`;
+            return;
+        }
+
+        paivanVaraukset.sort((a, b) =>
+            Number(a.room) - Number(b.room) ||
+            a.start.localeCompare(b.start)
+        );
+
+        const tiedot = paivanVaraukset.map(
+            varaus => `Luokka ${varaus.room}, ${varaus.start}–${varaus.end}`
+        );
+
+        reservationStatus.textContent =
+            `Päivän ${dateString} varaukset: ${tiedot.join("; ")}.`;
+    }
+    // alustetaan kalenteri
     flatpickr("#kalenteri", {
-      inline: true,
-      minDate: "today",
-      dateFormat: "d.m.Y",
-      locale: "fi",
-      onChange: (selectedDates, dateString) => {
-        if (!storageAvailable || !dateString) {
-          return;
+        inline: true,
+        minDate: "today",
+        dateFormat: "d.m.Y",
+        locale: "fi",
+        onChange: (selectedDates, dateString) => {
+            if (dateString) {
+                naytaVaraukset(dateString);
+            }
         }
-        const dayReservations = reservations.filter(reservation => reservation.date === dateString);
-        if (dayReservations.length === 0) {
-          reservationStatus.textContent = `Päivälle ${dateString} ei ole luokkavarauksia.`;
-          return;
-        }
-        const details = dayReservations
-          .sort((a, b) => Number(a.room) - Number(b.room) || a.start.localeCompare(b.start))
-          .map(reservation => `Luokka ${reservation.room}, ${reservation.start}–${reservation.end}`);
-        reservationStatus.textContent = `Päivän ${dateString} varaukset: ${details.join("; ")}.`;
-      }
     });
-  </script>
+      // haetaan varaukset heti sivun latautuessa
+    haeVaraukset();
+</script>
 </body>
 </html
