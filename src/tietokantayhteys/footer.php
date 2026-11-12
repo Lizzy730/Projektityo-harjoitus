@@ -27,8 +27,8 @@
 
             <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mt-3">
                 <h5 class="text-uppercase mb-4 font-weight-bold">Yhteystiedot</h5>
-                <p><i class="fas fa-home me-2"></i>123 Street, City</p>
-                <p><i class="fas fa-envelope me-2"></i>info@example.com</p>
+                <p><i class="fas fa-home me-2"></i>Hehkukatu 1, Kuopio</p>
+                <p><i class="fas fa-envelope me-2"></i>info@luokkahuonevaraaja.fi</p>
                 <p><i class="fas fa-phone me-2"></i>+123 456 7890</p>
             </div>
 
