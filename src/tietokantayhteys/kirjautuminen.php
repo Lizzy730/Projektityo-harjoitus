@@ -9,13 +9,6 @@ if (isset($_SESSION["kirjautunut"]) && $_SESSION["kirjautunut"] === true) {
 
 // Tietokantaan yhdistys
 require "yhteys.php";
-$conn = new mysqli($host, $user, $password, $dbname);
-
-// Tarkistetaan tietokantayhteys
-if ($conn->connect_error) {
-    die("Virhe: Tietokantayhteys epäonnistui! " . $conn->connect_error);
-}
-$conn->set_charset("utf8mb4");
 
 // Muuttujat virhe- ja onnistumisviesteille
 $virheviesti = "";
@@ -70,7 +63,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $virheviesti = "Täytä kaikki kentät!";
     }
 }
-$conn->close();
+$yhteys = null;
 ?>
 <!DOCTYPE html>
 <html lang="fi">
