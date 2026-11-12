@@ -181,7 +181,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 <a class="nav-link" href="#">Kirjaudu</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="profiili.html">Profiili</a>
+                <a class="nav-link" href="profiili.php">Profiili</a>
             </li>
         </ul>
     </div>
