@@ -13,6 +13,7 @@
   <div class="profile-actions d-flex flex-column align-items-end gap-2 p-3">
     <button id="kirjauduulos" class="btn btn-outline-dark" type="button">Kirjaudu ulos</button>
     <button id="vaihdasalasana" class="btn btn-outline-dark" type="button">Vaihda salasana</button>
+    <button id="poistakayttaja" class="btn btn-outline-danger" type="button">Poista käyttäjä</button>
   </div>
   <h1 class="text-center">Profiili</h1>
   <nav class="navbar navbar-expand-sm navbar-light">
@@ -22,7 +23,7 @@
         <a class="nav-link" href="käyttöliittymä.html">Etusivu</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="varaukset.html">Varaukset</a>
+        <a class="nav-link" href="varaukset.php">Varaukset</a>
       </li>
     </ul>
     <ul class="navbar-nav ms-auto">
@@ -64,7 +65,7 @@
   </section>
   <p id="eiVarauksia" class="alert alert-info mt-3" role="status" hidden>
     Sinulla ei ole vielä varauksia.
-    <a href="varaukset.html">Siirry tekemään varaus</a>
+    <a href="varaukset.php">Siirry tekemään varaus</a>
   </p>
   <p id="varausTila" class="mt-2" role="status" aria-live="polite"></p>
 </main>
@@ -74,6 +75,7 @@
   const reservationList = document.querySelector("#varausLista");
   const removeButton = document.querySelector("#poistaVaraus");
   const saveButton = document.querySelector("#tallennaMuutos");
+  const deleteAccountButton = document.querySelector("#poistakayttaja");
   const emptyReservationsMessage = document.querySelector("#eiVarauksia");
   const reservationStatus = document.querySelector("#varausTila");
   const storageKey = "luokkavaraus-varaukset";
@@ -269,6 +271,36 @@
     }
     updateReservationList();
     setStatus("Varaus poistettu ja sen aika on jälleen varattavissa.", false);
+  });
+
+  deleteAccountButton.addEventListener("click", async function() {
+    if (!window.confirm("Haluatko varmasti poistaa käyttäjätilisi? Tiliä ja sen varauksia ei voi palauttaa.")) {
+      return;
+    }
+
+    deleteAccountButton.disabled = true;
+    try {
+      const tokenResponse = await fetch("poista_kayttaja.php", { credentials: "same-origin" });
+      const tokenData = await tokenResponse.json();
+      if (!tokenResponse.ok || typeof tokenData.csrfToken !== "string") {
+        throw new Error(tokenData.message || "Poistopyynnön vahvistaminen epäonnistui.");
+      }
+
+      const response = await fetch("poista_kayttaja.php", {
+        method: "POST",
+        credentials: "same-origin",
+        headers: { "X-CSRF-Token": tokenData.csrfToken }
+      });
+      const result = await response.json();
+      if (!response.ok || result.success !== true) {
+        throw new Error(result.message || "Käyttäjätilin poistaminen epäonnistui.");
+      }
+
+      window.location.assign("kirjautuminen.php?viesti=tili_poistettu");
+    } catch (error) {
+      window.alert(error.message || "Käyttäjätilin poistaminen epäonnistui.");
+      deleteAccountButton.disabled = false;
+    }
   });
 </script>
 </body>
