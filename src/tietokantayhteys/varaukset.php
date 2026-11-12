@@ -1,5 +1,8 @@
 <?php
+
 //aloitetaan istunto 
+
+require_once "tarkista_kirjautuminen.php";
 session_start();
 // Tarkistetaan onko pyyntö GET
 if ($_SERVER["REQUEST_METHOD"] === "GET" && isset($_GET["hae"])) {
@@ -29,6 +32,7 @@ if ($_SERVER["REQUEST_METHOD"] === "GET" && isset($_GET["hae"])) {
 
     exit;
 }
+require_once "tarkista_kirjautuminen.php";
 // Tarkistetaan onko pyyntö POST
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     header("Content-Type: application/json; charset=utf-8");

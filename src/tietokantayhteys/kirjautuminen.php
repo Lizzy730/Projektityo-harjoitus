@@ -56,7 +56,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $stmt->close();
                 $conn->close();
 
-                // Vie käyttäjän etusiculle kirjautumisen jälkeen
+                // Vie käyttäjän etusivulle kirjautumisen jälkeen
                 header("Location: käyttöliittymä.php");
                 exit();
             } else {
