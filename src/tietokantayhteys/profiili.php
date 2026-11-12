@@ -12,10 +12,10 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
-  <div class="profile-actions d-flex flex-column align-items-end gap-2 p-3">
-    <button id="kirjauduulos" class="btn btn-outline-dark" type="button">Kirjaudu ulos</button>
+<div class="profile-actions d-flex flex-column align-items-end gap-2 p-3">
+    <a href="ulos.php" id="kirjauduulos" class="btn btn-outline-dark">Kirjaudu ulos</a>
     <button id="vaihdasalasana" class="btn btn-outline-dark" type="button">Vaihda salasana</button>
-  </div>
+</div>
   <h1 class="text-center">Profiili</h1>
   <nav class="navbar navbar-expand-sm navbar-light">
   <div class="container-fluid">
@@ -24,15 +24,15 @@
         <a class="nav-link" href="käyttöliittymä.html">Etusivu</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="varaukset.html">Varaukset</a>
+        <a class="nav-link" href="varaukset.php">Varaukset</a>
       </li>
     </ul>
     <ul class="navbar-nav ms-auto">
       <li class="nav-item">
-        <a class="nav-link" href="#">Rekisteröidy</a>
+        <a class="nav-link" href="rekisterointi.php">Rekisteröidy</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">Kirjaudu</a>
+        <a class="nav-link" href="kirjautuminen.php">Kirjaudu</a>
       </li>
       <li class="nav-item">
         <a class="nav-link active" href="profiili.html">Profiili</a>
@@ -66,7 +66,7 @@
   </section>
   <p id="eiVarauksia" class="alert alert-info mt-3" role="status" hidden>
     Sinulla ei ole vielä varauksia.
-    <a href="varaukset.html">Siirry tekemään varaus</a>
+    <a href="varaukset.php">Siirry tekemään varaus</a>
   </p>
   <p id="varausTila" class="mt-2" role="status" aria-live="polite"></p>
 </main>
