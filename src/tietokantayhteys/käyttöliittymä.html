@@ -95,8 +95,8 @@
             varaus => `Luokka ${varaus.room}, ${varaus.start}–${varaus.end}`
         );
 
-        reservationStatus.textContent =
-            `Päivän ${dateString} varaukset: ${tiedot.join("; ")}.`;
+        reservationStatus.innerText =
+            `Päivän ${dateString} varaukset: \n${tiedot.join("\n")}.`;
     }
     // alustetaan kalenteri
     flatpickr("#kalenteri", {
