@@ -1,8 +1,38 @@
 <?php
+
+//aloitetaan istunto 
+
 require_once "tarkista_kirjautuminen.php";
-
 session_start();
+// Tarkistetaan onko pyyntö GET
+if ($_SERVER["REQUEST_METHOD"] === "GET" && isset($_GET["hae"])) {
+    header("Content-Type: application/json; charset=utf-8");
 
+    // haetaan varaukset tietokannasta
+    try {
+        require_once __DIR__ . "/yhteys.php";
+
+        $sql = "SELECT
+                    huone_id AS room,
+                    DATE_FORMAT(alku_aika, '%d.%m.%Y') AS date,
+                    DATE_FORMAT(alku_aika, '%H:%i') AS start,
+                    DATE_FORMAT(loppu_aika, '%H:%i') AS end
+                FROM Varaus
+                WHERE tila = 'voimassa'
+                ORDER BY alku_aika";
+
+          // Sql lause ja haetaan varaukset tietokannasta
+        $stmt = $yhteys->query($sql);
+        echo json_encode($stmt->fetchAll(PDO::FETCH_ASSOC));
+
+    } catch (Throwable $e) {
+        http_response_code(500);
+        echo json_encode(["error" => "Varausten hakeminen epäonnistui."]);
+    }
+
+    exit;
+}
+require_once "tarkista_kirjautuminen.php";
 // Tarkistetaan onko pyyntö POST
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     header("Content-Type: application/json; charset=utf-8");
