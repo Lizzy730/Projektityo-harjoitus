@@ -163,6 +163,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
   <link rel="stylesheet" href="käyttöliittymä.css">
 <h1 style="text-align: center;">Varaukset</h1>
 <nav class="navbar navbar-expand-sm navbar-light">
+    <?php require_once 'header.php'; ?>
     <div class="container-fluid">
         <ul class="navbar-nav">
             <li class="nav-item">
@@ -385,6 +386,7 @@ try {
 
   });
 </script>
+<?php require_once 'footer.php'; ?>
 </body>
 </html
 
