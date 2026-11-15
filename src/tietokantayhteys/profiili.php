@@ -21,7 +21,7 @@
   <div class="container-fluid">
     <ul class="navbar-nav">
       <li class="nav-item">
-        <a class="nav-link" href="käyttöliittymä.html">Etusivu</a>
+        <a class="nav-link" href="käyttöliittymä.php">Etusivu</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="varaukset.php">Varaukset</a>
@@ -35,7 +35,7 @@
         <a class="nav-link" href="kirjautuminen.php">Kirjaudu</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link active" href="profiili.html">Profiili</a>
+        <a class="nav-link active" href="profiili.php">Profiili</a>
       </li>
     </ul>
   </div>
