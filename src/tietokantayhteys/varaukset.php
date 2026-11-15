@@ -166,7 +166,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <div class="container-fluid">
         <ul class="navbar-nav">
             <li class="nav-item">
-                <a class="nav-link" href="käyttöliittymä.html">Etusivu</a>
+                <a class="nav-link" href="käyttöliittymä.php">Etusivu</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link active" href="varaukset.php">Varaukset</a>
@@ -175,10 +175,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
         <ul class="navbar-nav ms-auto">
             <li class="nav-item">
-                <a class="nav-link" href="#">Rekisteröidy</a>
+                <a class="nav-link" href="rekisterointi.php">Rekisteröidy</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Kirjaudu</a>
+                <a class="nav-link" href="kirjautuminen.php">Kirjaudu</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="profiili.php">Profiili</a>
