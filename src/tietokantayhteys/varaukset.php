@@ -158,13 +158,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/flatpickr@4.6.13/dist/flatpickr.min.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+  <link rel="stylesheet" href="kayttoliittyma.css">
 </head>
 <body>
   <link rel="stylesheet" href="käyttöliittymä.css">
 <h1 style="text-align: center;">Varaukset</h1>
-<nav class="navbar navbar-expand-sm navbar-light">
+<!--<nav class="navbar navbar-expand-sm navbar-light">-->
     <?php require_once 'header.php'; ?>
-    <div class="container-fluid">
+    <!---<div class="container-fluid">
         <ul class="navbar-nav">
             <li class="nav-item">
                 <a class="nav-link" href="käyttöliittymä.php">Etusivu</a>
@@ -185,8 +186,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 <a class="nav-link" href="profiili.php">Profiili</a>
             </li>
         </ul>
-    </div>
-</nav>
+    </div>-->
+<!--</nav>-->
 
 <main class="container my-4">
   <h2>Valitse varauspäivät</h2>
@@ -386,7 +387,7 @@ try {
 
   });
 </script>
-<?php require_once 'footer.php'; ?>
+<?php //require_once 'footer.php'; ?>
 </body>
 </html
 

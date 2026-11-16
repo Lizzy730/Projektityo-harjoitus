@@ -105,7 +105,7 @@ $yhteys = null;
             <button type="submit" class="btn btn-primary w-100">Kirjaudu</button>
         </form>
         
-        <p class="mt-3 text-center">Ei vielä tiliä? <a href="rekisteroityminen.php">Rekisteröidy tästä!</a></p>
+        <p class="mt-3 text-center">Ei vielä tiliä? <a href="rekisterointi.php">Rekisteröidy tästä!</a></p>
     </div>
 </body>
 </html>

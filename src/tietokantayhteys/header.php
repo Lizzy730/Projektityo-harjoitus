@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <head>
-  <link rel="stylesheet" href="käyttöliittymä.css">
+  <link rel="stylesheet" href="kayttoliittyma.css">
     <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -13,7 +13,7 @@
   <div class="container-fluid">
     <ul class="navbar-nav">
       <li class="nav-item">
-        <a class="nav-link active" href="käyttöliittymä.html">Etusivu</a>
+        <a class="nav-link active" href="kayttoliittyma.html">Etusivu</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="varaukset.html">Varaukset</a>
@@ -27,7 +27,7 @@
         <a class="nav-link" href="kirjautuminen.php">Kirjaudu</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="profiili.html">Profiili</a>
+        <a class="nav-link" href="profiili.php">Profiili</a>
       </li>
     </ul>
   </div>

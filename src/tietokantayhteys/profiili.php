@@ -8,7 +8,7 @@
   <title>Profiili – Luokkavaraus</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/flatpickr@4.6.13/dist/flatpickr.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="käyttöliittymä.css">
+  <link rel="stylesheet" href="kayttoliittyma.css">
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
@@ -21,7 +21,7 @@
   <div class="container-fluid">
     <ul class="navbar-nav">
       <li class="nav-item">
-        <a class="nav-link" href="käyttöliittymä.php">Etusivu</a>
+        <a class="nav-link" href="kayttoliittyma.html">Etusivu</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="varaukset.php">Varaukset</a>
